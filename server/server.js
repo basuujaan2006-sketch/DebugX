@@ -1,16 +1,13 @@
 // ============================================================
-// server.js — Entry Point
-// Loads environment variables and starts the HTTP server.
+// server.js
 // ============================================================
 
-const dotenv = require("dotenv");
-dotenv.config(); // Load .env variables before anything else
+require("dotenv").config();
 
 const app = require("./app");
 
 const PORT = process.env.PORT || 5000;
 
-// Start listening on the configured port
-app.listen(PORT, () => {
-  console.log(`✅ DebugX server is running on http://localhost:${PORT}`);
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`🚀 DebugX server running on port ${PORT}`);
 });
