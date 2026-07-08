@@ -1,42 +1,49 @@
+// ============================================================
+// app.js — Express Application Setup
+// ============================================================
+
 const express = require("express");
 const cors = require("cors");
 const analyzeRoute = require("./routes/analyze");
 
 const app = express();
 
-const allowedOrigins = [
-  "http://localhost:5173",
-  "http://localhost:5174",
-  "https://debug-x-nu.vercel.app",
-  "https://debug-fru90j1ff-basuujaan2006-sketchs-projects.vercel.app",
-];
+// ============================================================
+// CORS Configuration
+// ============================================================
 
 app.use(
   cors({
-    origin: function (origin, callback) {
-      // Allow requests with no origin (Postman, curl, etc.)
-      if (!origin) return callback(null, true);
-
-      if (allowedOrigins.includes(origin)) {
-        return callback(null, true);
-      }
-
-      return callback(new Error("Not allowed by CORS"));
-    },
+    origin: true, // Allow all origins
     methods: ["GET", "POST", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: false,
   })
 );
 
+// Handle preflight requests
 app.options("*", cors());
+
+// ============================================================
+// Middleware
+// ============================================================
 
 app.use(express.json());
 
+// ============================================================
+// Routes
+// ============================================================
+
 app.use("/api/analyze", analyzeRoute);
 
+// ============================================================
+// Health Check
+// ============================================================
+
 app.get("/", (req, res) => {
-  res.json({ message: "DebugX API is running 🚀" });
+  res.json({
+    message: "DebugX API is running 🚀",
+  });
 });
 
 module.exports = app;

@@ -46,12 +46,17 @@ function Home() {
       const data = await analyzeCode(language, code);
       setResult(data);
     } catch (err) {
-      // Handle network or server errors gracefully
-      const message =
-        err.response?.data?.error ||
-        err.message ||
-        "Something went wrong. Please try again.";
-      setError(`❌ ${message}`);
+  console.error("Full Error:", err);
+  console.error("Response:", err.response);
+  console.error("Response Data:", err.response?.data);
+
+  const message =
+    err.response?.data?.details ||
+    err.response?.data?.error ||
+    err.message ||
+    "Something went wrong.";
+
+  setError(`❌ ${message}`);
     } finally {
       setLoading(false);
     }
